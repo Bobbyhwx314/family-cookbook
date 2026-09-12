@@ -57,7 +57,7 @@ Recipes live in a JSON block inside each HTML file (`<script type="application/j
 
 ## 中文
 
-同一本菜谱的两个版本：[English](https://bobbyhwx314.github.io/family-cookbook/) · [中文](https://bobbyhwx314.github.io/family-cookbook/zh/)。
+[English]((https://claude.ai/code/artifact/3054650e-5088-4c4c-b5c1-d02fbb25fe5c)) ·
 
 21 道菜，每道带食材、分步做法，和一两条真正决定成败的窍门。可以按人、按分类筛，也能搜食材和做法。新加的菜会先存进浏览器，再尝试写回页面本身——两条路互为备份。
 
