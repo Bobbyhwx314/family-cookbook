@@ -2,9 +2,7 @@
 
 A single-page cookbook for the dishes two people actually know how to cook. No build step, no dependencies — one self-contained HTML file per language, plus the recipes as JSON.
 
-**Live:** https://bobbyhwx314.github.io/family-cookbook/ · [中文版](https://bobbyhwx314.github.io/family-cookbook/zh/)
 
-![The cookbook in light and dark](docs/screenshot-light.png)
 
 ## What it does
 
