@@ -2,7 +2,7 @@
 
 A single-page cookbook for the dishes two people actually know how to cook. No build step, no dependencies — one self-contained HTML file per language, plus the recipes as JSON.
 
-
+https://claude.ai/code/artifact/3054650e-5088-4c4c-b5c1-d02fbb25fe5c
 
 ## What it does
 
