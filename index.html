@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diandian &amp; Bobby's Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style id="css">
+:root{
+  --ground:#F2F5F4;
+  --surface:#FFFFFF;
+  --surface-2:#F8FAF9;
+  --ink:#16252B;
+  --ink-2:#3D4F56;
+  --muted:#6B7C82;
+  --line:#DBE3E1;
+  --line-2:#EAF0EE;
+  --blue:#2C6184;
+  --blue-soft:#E2EDF3;
+  --clay:#A9523B;
+  --clay-soft:#F4E6E0;
+  --shadow:0 1px 2px rgba(22,37,43,.05), 0 8px 24px -14px rgba(22,37,43,.22);
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F161A; --surface:#182126; --surface-2:#141C21;
+    --ink:#E7EEEB; --ink-2:#C0CDD1; --muted:#8FA1A7;
+    --line:#27353B; --line-2:#1F2C31;
+    --blue:#83B9D9; --blue-soft:#1B2E39;
+    --clay:#D68A6E; --clay-soft:#31221D;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F161A; --surface:#182126; --surface-2:#141C21;
+  --ink:#E7EEEB; --ink-2:#C0CDD1; --muted:#8FA1A7;
+  --line:#27353B; --line-2:#1F2C31;
+  --blue:#83B9D9; --blue-soft:#1B2E39;
+  --clay:#D68A6E; --clay-soft:#31221D;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.serif{font-family:"Newsreader",Georgia,"Times New Roman",serif}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 96px}
+
+header{padding:44px 0 26px}
+.eyebrow{
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 12px;
+}
+h1{
+  font-family:"Newsreader",Georgia,serif;font-weight:500;
+  font-size:clamp(34px,6vw,52px);line-height:1.1;letter-spacing:-.01em;
+  margin:0;text-wrap:balance;
+}
+.sub{color:var(--ink-2);margin:14px 0 0;max-width:60ch}
+
+.tally{
+  display:flex;flex-wrap:wrap;margin-top:26px;
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--surface);overflow:hidden;
+}
+.tally div{flex:1 1 130px;padding:14px 18px;border-right:1px solid var(--line-2)}
+.tally div:last-child{border-right:0}
+.tally b{
+  display:block;font-family:"Newsreader",Georgia,serif;font-weight:500;
+  font-size:30px;line-height:1.15;font-variant-numeric:tabular-nums;
+}
+.tally span{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.tally .b b{color:var(--blue)}
+.tally .d b{color:var(--clay)}
+
+.toolbar{
+  position:sticky;top:0;z-index:20;
+  background:var(--ground);
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(10px);
+  padding:14px 0 12px;margin:28px 0 0;
+  border-bottom:1px solid var(--line);
+}
+#q{
+  width:100%;background:var(--surface);color:var(--ink);
+  border:1px solid var(--line);border-radius:10px;
+  padding:10px 14px;font:inherit;font-size:14px;
+}
+#q::placeholder{color:var(--muted)}
+#q:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{
+  font:inherit;font-size:12.5px;line-height:1;
+  padding:7px 12px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
+  transition:background .15s,border-color .15s,color .15s;
+}
+.chip:hover{border-color:var(--blue);color:var(--ink)}
+.chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.chipsep{width:1px;background:var(--line);margin:2px 6px;align-self:stretch}
+
+.grid{
+  display:grid;gap:14px;margin-top:22px;
+  grid-template-columns:repeat(auto-fill,minmax(272px,1fr));
+  align-items:start;
+}
+.card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+}
+.card.open{grid-column:1/-1}
+.card > .head{
+  width:100%;text-align:left;background:none;border:0;
+  padding:16px 18px;cursor:pointer;color:inherit;font:inherit;display:block;
+}
+.card > .head:focus-visible{outline:2px solid var(--blue);outline-offset:-3px}
+.name{
+  display:block;font-family:"Newsreader",Georgia,serif;font-weight:500;
+  font-size:21px;line-height:1.25;letter-spacing:-.005em;
+}
+.card.open .name{font-size:27px}
+.zh{
+  display:block;font-size:12.5px;color:var(--muted);margin-top:3px;
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+.meta{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  margin-top:10px;font-size:11.5px;color:var(--muted);
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.meta > span{display:inline-flex;align-items:center}
+.who{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:2px 9px;border-radius:999px;font-size:11px;
+  letter-spacing:.06em;border:1px solid transparent;
+}
+.who.b{background:var(--blue-soft);color:var(--blue);border-color:color-mix(in srgb,var(--blue) 25%,transparent)}
+.who.d{background:var(--clay-soft);color:var(--clay);border-color:color-mix(in srgb,var(--clay) 25%,transparent)}
+.who.both{background:linear-gradient(100deg,var(--blue-soft) 50%,var(--clay-soft) 50%);color:var(--ink-2);border-color:var(--line)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.who.both .dot{background:linear-gradient(90deg,var(--blue) 50%,var(--clay) 50%)}
+.pending{
+  padding:2px 9px;border-radius:999px;font-size:11px;
+  background:var(--surface-2);border:1px dashed var(--line);color:var(--muted);
+}
+
+.body{padding:18px 18px 20px;border-top:1px solid var(--line-2);margin-top:2px}
+.cols{display:grid;gap:26px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:720px){ .cols{grid-template-columns:minmax(200px,.85fr) minmax(0,1.7fr)} }
+h3{
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin:0 0 10px;
+}
+.ing{list-style:none;margin:0;padding:0;font-size:14px}
+.ing li{padding:6px 0;border-bottom:1px solid var(--line-2);color:var(--ink-2)}
+.ing li:last-child{border-bottom:0}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{
+  counter-increment:s;position:relative;padding:0 0 15px 34px;
+  font-size:14.5px;color:var(--ink-2);max-width:68ch;
+}
+ol.steps li::before{
+  content:counter(s);position:absolute;left:0;top:2px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--blue-soft);color:var(--blue);
+  font-size:11.5px;font-weight:700;line-height:22px;text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+ol.steps li:last-child{padding-bottom:0}
+.tip{
+  margin-top:18px;padding:12px 14px;border-radius:10px;
+  background:var(--surface-2);border-left:3px solid var(--clay);
+  font-size:13.5px;color:var(--ink-2);max-width:68ch;
+}
+.tip strong{
+  color:var(--clay);font-weight:600;letter-spacing:.16em;font-size:10.5px;
+  text-transform:uppercase;display:block;margin-bottom:5px;
+}
+.emptynote{font-size:14px;color:var(--muted);padding:2px 0}
+.rowend{display:flex;justify-content:flex-end;margin-top:16px}
+.del{
+  font:inherit;font-size:12px;background:none;border:1px solid var(--line);
+  color:var(--muted);border-radius:8px;padding:5px 11px;cursor:pointer;
+}
+.del:hover{border-color:var(--clay);color:var(--clay)}
+.del:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+
+.add{
+  margin-top:34px;padding:22px;border-radius:var(--radius);
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);
+}
+.add h2{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:23px;margin:0 0 6px}
+.add p{margin:0 0 16px;color:var(--muted);font-size:13.5px;max-width:62ch}
+.banner{
+  font-size:13px;line-height:1.6;color:var(--muted);
+  padding:11px 14px;border-radius:10px;margin:0 0 16px;
+  background:var(--surface-2);border:1px solid var(--line);
+}
+.banner.ok{color:var(--ink-2);border-color:color-mix(in srgb,var(--blue) 30%,var(--line));background:var(--blue-soft)}
+.banner.bad{color:var(--ink-2);border-color:color-mix(in srgb,var(--clay) 40%,var(--line));background:var(--clay-soft)}
+.banner b{color:var(--clay)}
+.bpend{
+  display:inline-block;margin-left:2px;padding:1px 8px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--ink-2);
+}
+.addrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+#newname{
+  flex:1 1 230px;min-width:0;background:var(--surface-2);color:var(--ink);
+  border:1px solid var(--line);border-radius:10px;padding:10px 14px;font:inherit;font-size:14px;
+}
+#newname:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:transparent}
+.whopick{display:flex;gap:6px}
+.save{
+  font:inherit;font-size:14px;font-weight:600;
+  background:var(--ink);color:var(--ground);border:0;border-radius:10px;
+  padding:10px 20px;cursor:pointer;
+}
+.save:hover{background:var(--blue)}
+.save:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.status{font-size:13px;color:var(--muted);margin-top:12px;min-height:20px}
+.status.warn{color:var(--clay)}
+
+footer{margin-top:40px;font-size:12.5px;color:var(--muted);text-align:center}
+.noresult{padding:50px 0;text-align:center;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap"><div id="app"></div></div>
+
+<script type="application/json" id="data">{"dishes":[{"id":"suancai-niurou","n":"Stir-Fried Beef with Pickled Mustard Greens","zh":"酸菜炒牛肉","w":"b","c":"Stir-Fry","t":"20 min","i":["250g beef tenderloin or chuck tender","150g Sichuan pickled mustard greens (suan cai)","2 bird's eye chilies","3 cloves garlic, 3 slices ginger","1 tbsp light soy sauce, ½ tbsp oyster sauce","1 tsp cornstarch, ½ tsp sugar"],"s":["Slice the beef thinly against the grain. Work in the soy sauce, cornstarch and 1 tbsp water until it turns tacky, then seal with a film of oil and marinate 15 minutes.","Squeeze the pickled greens dry and cut into short lengths. Toast them in a dry pan over low heat for 1 minute to drive off the raw sourness.","Get the wok ripping hot, add cold oil, spread the beef in a single layer and leave it alone until it colors. Pull it out at about 80% done.","In the remaining oil, fry the garlic, ginger and chilies until fragrant, then add the pickled greens and stir until they smell sweet.","Return the beef, add sugar and oyster sauce, toss quickly and serve."],"p":["Always slice beef against the grain, and seal the marinade with oil — that oil film is what keeps it from sticking to the wok.","Pickled greens are already salty. Taste before you reach for the salt."]},{"id":"kugua-niurou","n":"Stir-Fried Beef with Bitter Melon","zh":"苦瓜炒牛肉","w":"b","c":"Stir-Fry","t":"20 min","i":["250g beef","1 bitter melon","1 tbsp fermented black beans","3 cloves garlic","Light soy sauce, oyster sauce, cornstarch","½ tsp sugar"],"s":["Slice the beef against the grain, work in soy sauce, cornstarch and water, seal with oil and marinate 15 minutes.","Halve the melon lengthwise and scrape out every trace of the white pith with a spoon — that is where the bitterness lives. Slice on the diagonal.","Toss the slices with ½ tbsp salt, rest 5 minutes, rinse and squeeze dry. Blanch 20 seconds and shock in cold water.","Sear the beef until just colored and set it aside.","Fry the garlic and chopped black beans in the remaining oil, add the melon and stir over high heat for 1 minute. Return the beef, finish with oyster sauce and a pinch of sugar."],"p":["Scraping the pith, salting and blanching together take out about 70% of the bitterness.","The sugar isn't there to sweeten the dish — it's there to blunt the bitter edge."]},{"id":"changfen","n":"Cantonese Rice Noodle Rolls","zh":"广东肠粉","w":"b","c":"Steamed","t":"40 min","i":["100g rice flour, 20g wheat starch, 20g cornstarch","300ml water, 1 tbsp oil","Filling: egg, ground pork or shrimp, scallion, lettuce","Sauce: 3 tbsp light soy, ½ tbsp dark soy, 1 tbsp sugar, 4 tbsp water, a few slices ginger and scallion"],"s":["Whisk the flours with water and oil into a thin batter and rest it 20 minutes.","Simmer the sauce ingredients for 2 minutes, then fish out the ginger and scallion.","Oil a steaming tray. Stir the batter again, pour in a thin layer — just enough to cover the tray — and scatter the filling over it.","Steam over high heat for 2½–3 minutes. Large bubbles rising through the sheet mean it's done.","Let it cool 10 seconds, then push it off the tray with a scraper into a roll and pour the sauce over."],"p":["Thinner is silkier. Err on the side of alarmingly thin.","Re-stir the batter before every single tray — the flour settles fast, and otherwise your first and last rolls come out completely different."]},{"id":"niurou-zhou","n":"Cantonese Beef and Egg Congee","zh":"广东牛肉滑蛋粥","w":"both","c":"Congee & Noodles","t":"70 min","i":["1 cup rice, 10 cups water or stock","150g beef, 2 eggs","Ginger slivers, scallion, cilantro","Light soy sauce, cornstarch, sesame oil","White pepper"],"s":["Rinse the rice and toss it with a little oil and salt. Bring to a boil, then simmer 40–60 minutes, scraping the bottom now and then, until the grains burst and the congee turns glossy.","Slice the beef thinly against the grain and marinate 10 minutes in soy sauce, cornstarch, white pepper and sesame oil.","Drop ginger slivers into the boiling congee, then scatter the beef in slice by slice. Kill the heat after 10 seconds.","Beat the eggs and pour them in a thin stream, stirring — the residual heat sets them.","Finish with scallion, cilantro and white pepper."],"p":["Both the beef and the egg cook off the heat. Another 30 seconds on the burner and they go tough.","The base is ready when congee clings to a lifted spoon instead of running off it."]},{"id":"yezi-ji","n":"Coconut Chicken Hot Pot","zh":"椰子鸡","w":"b","c":"Soup","t":"40 min","i":["Half a free-range chicken","2 young coconuts (water and flesh)","4 slices ginger, a little polygonatum and goji","Salt","Dip: minced sand ginger, bird's eye chili, light soy sauce, lime"],"s":["Chop the chicken, blanch 2 minutes from cold water to clear the blood, and rinse.","Drain about 800ml of coconut water; scrape out the flesh and cut it into strips.","Bring the coconut water, an equal volume of fresh water and the ginger to a boil. Add the chicken and simmer 15 minutes.","Add the coconut flesh, simmer 5 more minutes, then season with salt.","Stir the dip together: sand ginger, chili, soy sauce and lime juice."],"p":["No spices. Coconut chicken should taste of exactly two things — coconut and chicken.","Be generous with the salt. Coconut water is sweet, and without enough salt the savoriness never comes forward.","The sand ginger in the dip is the whole point. Regular ginger is not a substitute."]},{"id":"shajiang-huaruo","n":"Sand Ginger Sea Snails and Chicken Wings","zh":"沙姜花螺鸡翅煲","w":"b","c":"Braise & Clay Pot","t":"35 min","i":["8 chicken wingettes, 300g sea snails","30g fresh sand ginger (or 1 tbsp sand ginger powder)","5 cloves garlic, 3 slices ginger, 2 shallots","2 tbsp light soy, 1 tbsp oyster sauce, rice wine, sugar"],"s":["Purge the snails in salted water for an hour and scrub them. Score the wings on both sides and marinate 20 minutes in soy sauce, wine and half the minced sand ginger.","Heat the clay pot slowly over low heat, add oil, and brown the wings skin-side down until golden on both sides.","Add the garlic, ginger, shallots and the rest of the sand ginger and fry until fragrant.","Add the snails, splash in the wine, then the soy, oyster sauce, sugar and half a bowl of water. Cover and cook over medium-low heat for 8–10 minutes.","Uncover, reduce over high heat, scatter scallion and cover for 30 seconds before serving."],"p":["Sea snails shrink and toughen if you overcook them. Stop at 10 minutes.","Start a clay pot cold and bring it up slowly — straight onto high heat and it can crack."]},{"id":"dadoumiao","n":"Stir-Fried Pea Shoots","zh":"炒大豆苗","w":"b","c":"Stir-Fry","t":"8 min","i":["400g pea shoots","4 cloves garlic","Salt, a pinch of sugar","Oil"],"s":["Pinch off the tough stems, wash, and dry the shoots thoroughly.","Heat the wok until it smokes before adding oil, then the garlic — fragrant but not colored.","Add all the shoots at once and stir over high heat for 40–60 seconds, until they just collapse.","Season with salt and a pinch of sugar, toss twice and get them out of the pan."],"p":["High heat, bone-dry greens, under a minute. Grey, watery greens mean you missed one of those three."]},{"id":"douchi-youmaicai","n":"Yau Mak Choy with Black Bean Dace","zh":"豆豉鲮鱼油麦菜","w":"b","c":"Stir-Fry","t":"12 min","i":["400g yau mak choy (or romaine)","1 can dace with black beans","4 cloves garlic, 1 bird's eye chili","A pinch of sugar"],"s":["Cut the greens into lengths, wash and dry them, keeping stems and leaves separate.","Lift the fish out of the can and tear it into pieces. Keep the black beans and the oil from the can.","Heat the canned oil, fry the garlic and black beans until fragrant, then break up the fish in the pan.","Add the stems first and stir over high heat for 30 seconds, then the leaves, just until they wilt.","Taste before adding any salt. A pinch of sugar rounds it out."],"p":["Never pour off the oil from the can — that oil is where the flavor of this dish comes from.","The canned fish is very salty; nine times out of ten it needs no extra salt."]},{"id":"haoyou-caixin","n":"Choy Sum in Oyster Sauce","zh":"蚝油菜心","w":"b","c":"Stir-Fry","t":"10 min","i":["400g choy sum","1½ tbsp oyster sauce, ½ tbsp light soy, ½ tsp sugar","2 cloves garlic, 2 tbsp water","Salt and oil for the blanching water"],"s":["Bring a pot of water to a boil with salt and a teaspoon of oil. Blanch the choy sum 60–90 seconds and arrange it on a plate.","Fry the minced garlic in a little hot oil in a small pan.","Add the oyster sauce, soy, sugar and water and simmer 20 seconds until lightly thickened.","Pour it over the greens while hot."],"p":["The oil in the blanching water is what makes the greens glossy and green.","Oyster sauce turns bitter if you cook it long — 20 seconds is the whole window."]},{"id":"huangyou-xia","n":"Garlic Butter Shrimp","zh":"黄油虾","w":"b","c":"Stir-Fry","t":"15 min","i":["400g large shrimp","30g butter, 6 cloves garlic","2 tbsp diced onion (optional)","1 tbsp white wine or rice wine","Black pepper, salt, lemon, parsley or scallion"],"s":["Butterfly the shrimp, remove the vein, trim the feelers, and pat them completely dry.","In a skillet over medium heat, sear the shrimp in a little oil on both sides until they turn red, then set aside.","Drop the heat to low, melt the butter, and cook the garlic to a pale gold — do not let it brown.","Return the shrimp, splash in the wine, season with black pepper and salt, and toss for 30 seconds.","Off the heat, squeeze over lemon and scatter the herbs."],"p":["Butter hates high heat. Let the pan cool down before it goes in.","Dry shrimp sear; wet shrimp steam."]},{"id":"fanqie-feiniu","n":"Beef and Tofu Skin Rolls in Tomato Broth","zh":"番茄腐皮肥牛卷","w":"b","c":"Braise & Clay Pot","t":"25 min","i":["300g sliced fatty beef","2 sheets tofu skin","3 tomatoes, 1 tbsp tomato paste","3 cloves garlic, 2 slices ginger","1 tbsp light soy, 1 tsp sugar, salt, scallion"],"s":["Soak the tofu skin in warm water until pliable and cut it into strips slightly narrower than the beef slices.","Wrap one strip in each slice of beef and set the rolls seam-side down.","Score the tomatoes, blanch, peel and chop.","Fry the garlic and ginger, add the tomatoes and cook over medium heat until they break down into a pulp. Stir in the tomato paste, then a bowl of water or stock, and bring to a boil.","Season with soy, sugar and salt, slide the rolls in around the edge of the pan, and simmer 5–6 minutes. Finish with scallion."],"p":["Don't poke the rolls after they go in — let them set before you move anything, or they unravel.","Cook the tomatoes until they genuinely collapse. That's what makes the broth red and thick instead of watery."]},{"id":"yundou-paigu","n":"Braised Pork Ribs with Kidney Beans","zh":"芸豆炖排骨","w":"both","c":"Braise & Clay Pot","t":"60 min","i":["500g pork ribs","150g dried kidney beans (or 300g fresh green beans)","1 potato (optional)","4 slices ginger, scallion, 1 star anise","2 tbsp light soy, ½ tbsp dark soy, rice wine, salt"],"s":["Soak dried beans at least 4 hours ahead. Skip this if using fresh beans.","Blanch the ribs from cold water with ginger and wine for 3 minutes, skim, and rinse.","Brown the ribs in a little oil, then add the ginger, scallion and star anise.","Stir in the soy sauces and wine, add hot water to cover, bring to a boil and simmer 30 minutes.","Add the beans and potato, simmer another 20–25 minutes, salt at the end, and reduce briefly over high heat."],"p":["Any water you add mid-braise must be hot — cold water tightens the meat.","Salt at the end. Early salt keeps the meat from going tender.","Dried kidney beans must be cooked all the way through; undercooked ones are toxic."]},{"id":"niurou-chaofan","n":"Beef Fried Rice","zh":"牛肉炒饭","w":"b","c":"Dough & Rice","t":"15 min","i":["2 bowls day-old rice","150g diced beef, 2 eggs","Diced onion, carrot, peas","Scallion","1 tbsp light soy, ½ tbsp oyster sauce, salt, white pepper"],"s":["Dice the beef and marinate it 10 minutes in soy sauce and cornstarch.","Break the rice up by hand ahead of time — no clumps left.","Sear the beef in a hot, oiled wok and set it aside.","Pour in the beaten egg, and while it's still half-set add the rice. Stir over high heat, pressing with the back of the spatula until every grain separates.","Add the vegetables, return the beef, and drizzle the soy and oyster sauce down the side of the wok. Season with salt and white pepper and finish with scallion."],"p":["Day-old rice, high heat, rice broken up first — those are the three conditions for separate grains.","Pour seasoning down the hot side of the wok, not over the rice. That's where wok hei comes from."]},{"id":"tomyum","n":"Tom Yum Goong","zh":"冬荫功汤","w":"b","c":"Soup","t":"25 min","i":["8 shrimp","6 straw or button mushrooms","2 stalks lemongrass, 4 slices galangal, 5 kaffir lime leaves","3 bird's eye chilies, 2 tbsp tom yum paste","3 tbsp coconut milk or evaporated milk (optional)","1½ tbsp fish sauce, 2 tbsp lime juice, 1 tsp sugar, cilantro"],"s":["Peel the shrimp, keeping the heads. Toast the heads and shells in a dry pan until the red oil runs, add 800ml water, simmer 10 minutes and strain.","Bruise the lemongrass and cut it into lengths; slice the galangal; tear the lime leaves. Simmer all three in the shrimp stock for 5 minutes.","Stir in the tom yum paste, add the mushrooms and cook 3 minutes.","Add the shrimp and cook 1–2 minutes until they turn, then stir in the coconut milk.","Off the heat, season with fish sauce, lime juice and sugar. Finish with cilantro and chilies."],"p":["Lime juice goes in off the heat. Boil it and it turns bitter.","Sour, hot, salty, sweet — the balance is all in that last step, so add a little at a time and keep tasting."]},{"id":"kao-tudou","n":"Crispy Roast Potatoes","zh":"烤土豆","w":"b","c":"Oven","t":"50 min","i":["600g potatoes","2 tbsp olive oil","Salt, black pepper, garlic powder","Rosemary or thyme","Grated parmesan (optional)"],"s":["Cut the potatoes into chunks, skin on. Soak 10 minutes in cold water to rinse off surface starch, then dry thoroughly.","Start them in cold salted water and boil 8 minutes, until the edges give. Drain, put the lid on and shake the pan to rough up the surfaces.","Toss with olive oil, salt, pepper, garlic powder and herbs.","Roast at 200°C on a tray in a single layer for 25 minutes.","Turn them and roast 15 minutes more, until deep gold."],"p":["Parboil, then shake up the edges. That fuzzy surface is the crust.","Never let them overlap. Crowded potatoes steam instead of roasting."]},{"id":"jiaozi","n":"Dumplings, Any Filling","zh":"各种饺子","w":"d","c":"Dough & Rice","t":"90 min","i":["500g all-purpose flour, 260ml warm water, 3g salt","500g ground pork","500g napa cabbage or Chinese chives","Minced ginger and scallion","3 tbsp light soy, 1 tbsp oyster sauce, 2 tbsp sesame oil","White pepper, salt, 100ml Sichuan peppercorn water"],"s":["Salt the flour, stream in the warm water while stirring to a shaggy mass, knead into a ball and rest under a damp cloth for 30 minutes, kneading again halfway to smooth.","Season the pork with ginger, soy, oyster sauce and white pepper and beat it in one direction, adding the peppercorn water a splash at a time until the filling is springy and glossy.","Chop the vegetables, salt them for 10 minutes, and wring them dry. Fold them in, then seal everything with the sesame oil.","Roll the dough into a rope, cut into pieces, and roll each into a wrapper thicker in the middle than at the edge.","Boil, adding a splash of cold water twice. They're done when they float up and puff."],"p":["Beating in the water is what makes the filling tender. A little at a time — fully absorbed before the next splash.","Wring the vegetables dry before mixing, and add the sesame oil last. Both hold the water back."]},{"id":"jiucai-hezi","n":"Chive and Egg Pockets","zh":"韭菜盒子","w":"d","c":"Dough & Rice","t":"50 min","i":["300g flour, 100ml boiling water, 60ml cold water","300g Chinese chives, 3 eggs","A small bundle of glass noodles (optional), dried shrimp","Sesame oil, salt, white pepper"],"s":["Stir boiling water into half the flour to a shaggy mass, then bring in the rest with cold water. Knead smooth and rest 30 minutes.","Scramble the eggs into small curds and cool them. Wash the chives, dry them completely, and chop.","Coat the chives in sesame oil first, then fold in the egg, dried shrimp, salt and pepper — and only right before you fill.","Divide the dough, roll out rounds, fill, fold over, and crimp the edge or press it with the rim of a bowl.","Pan-fry over medium-low heat in a little oil, about 3 minutes a side, until golden and crisp."],"p":["Half-scalded dough — half boiling water, half cold — is what makes it soft without tearing.","Oil the chives before you salt them; it buys you time before they start weeping."]},{"id":"jitang","n":"Clear Chicken Soup","zh":"鸡汤","w":"d","c":"Soup","t":"90 min","i":["Half a stewing hen","4 slices ginger, scallion, rice wine","4 red dates, goji berries, 4 shiitake mushrooms","Salt"],"s":["Chop the chicken, blanch from cold water with ginger and wine, skim the foam and rinse.","Start with fresh water — all of it at once, about 5cm above the chicken. Bring to a boil and drop straight to the lowest heat.","Hold it at a bare shiver for 60–90 minutes, lid slightly ajar the whole time.","Add the dates, mushrooms and goji for the last 15 minutes.","Salt only in the last 5 minutes, and skim the fat off the top."],"p":["A rolling boil turns the broth cloudy. Clear soup comes from a lazy simmer.","Early salt gives you dry meat and flat broth."]},{"id":"laoyoufen","n":"Lao You Noodles","zh":"老友粉 / 伊面","w":"d","c":"Congee & Noodles","t":"25 min","i":["Rice noodles or yi mein for 2","100g pickled bamboo shoots, 1 tbsp fermented black beans, 2 pickled chilies","4 cloves garlic, minced ginger","1 tomato","150g sliced pork or beef","Light soy, oyster sauce, 500ml stock","Cilantro, scallion"],"s":["Shred the pickled bamboo and dry-fry it 2 minutes to cook off the sharp smell and leave the fragrance.","Marinate the meat 10 minutes in soy sauce and cornstarch.","Fry the garlic, ginger, black beans and pickled chilies in hot oil, then add the bamboo and tomato and cook until fragrant.","Add the stock, bring to a boil, season with soy and oyster sauce, and poach the meat for 1 minute.","Cook the noodles separately, lift them into bowls, ladle the soup over, and finish with cilantro and scallion."],"p":["Pickled bamboo, fermented black beans, pickled chili, garlic — miss one and it isn't lao you flavor any more.","Yi mein carries an alkaline taste; rinse it through hot water before cooking."]},{"id":"kaoji","n":"Whole Roast Chicken","zh":"烤鸡","w":"d","c":"Oven","t":"90 min + brine","i":["1 whole chicken (about 1.3kg)","15g salt, black pepper, garlic powder","1 onion, 1 lemon, rosemary","30g butter, olive oil"],"s":["Pat the chicken dry inside and out, rub it all over with salt and pepper, and refrigerate uncovered for at least 4 hours.","Mash softened butter with garlic powder and herbs and push it under the breast skin.","Stuff the cavity with lemon, onion and rosemary, and tie the legs.","Roast breast-up on a bed of onion slices at 200°C for 20 minutes.","Drop to 180°C and roast another 45–55 minutes, until the thickest part of the thigh reads 74°C.","Rest 15 minutes before carving."],"p":["Dry-brining uncovered is the only real secret to crisp skin. Salt it and roast it immediately and the skin never crisps.","Rest it 15 minutes, or the juices all run out on the first cut."]},{"id":"kao-jinzhengu","n":"Foil-Baked Enoki Mushrooms","zh":"烤金针菇","w":"d","c":"Oven","t":"25 min","i":["300g enoki mushrooms","5 cloves garlic, 2 bird's eye chilies","2 tbsp light soy, 1 tbsp oyster sauce, 1 tbsp chili oil","½ tsp sugar, scallion","Aluminum foil"],"s":["Trim the roots off the enoki, pull them into small bundles, rinse and drain.","Pour hot oil over the minced garlic and chili, then stir in the soy, oyster sauce, chili oil and sugar.","Lay the mushrooms on a sheet of foil, spoon over half the sauce, and fold the foil into an open boat.","Bake at 200°C for 12–15 minutes.","Spoon over the remaining sauce and scatter scallion."],"p":["Enoki release a lot of water. Leave the foil open at the top so the steam can escape, or you end up with soup."]}]}</script>
+
+<script id="js">
+(function(){
+  "use strict";
+  var TITLE = "Diandian &amp; Bobby's Kitchen";
+  var FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">';
+  var COOK = { b:"Bobby", d:"Diandian", both:"Both of us" };
+  var CATS = ["Stir-Fry","Braise & Clay Pot","Soup","Congee & Noodles","Dough & Rice","Steamed","Oven"];
+
+  var DATA = JSON.parse(document.getElementById("data").textContent);
+  var app = document.getElementById("app");
+  var filterWho = "all", filterCat = "all", query = "", openId = null, confirmId = null;
+  var statusMsg = "", statusWarn = false;
+
+  /* ---- local backup, so a dish is never lost even if publishing fails ---- */
+  var LSKEY = "dd-bobby-kitchen-extras-v1";
+  function loadExtras(){
+    try{ var v = JSON.parse(localStorage.getItem(LSKEY) || "[]"); return Array.isArray(v)?v:[]; }
+    catch(e){ return []; }
+  }
+  function saveExtras(list){ try{ localStorage.setItem(LSKEY, JSON.stringify(list)); }catch(e){} }
+  var extras = loadExtras();
+  (function mergeExtras(){
+    var known = {};
+    DATA.dishes.forEach(function(d){ known[d.n] = true; });
+    var keep = [];
+    extras.forEach(function(d){
+      if(known[d.n]) return;
+      known[d.n] = true; keep.push(d); DATA.dishes.push(d);
+    });
+    extras = keep; saveExtras(extras);
+  })();
+
+  /* ---- can this copy save a new version of itself? ---- */
+  var hasRuntime = !!(window.claude && typeof window.claude.use === "function");
+  var canPublish = null;
+  var artifactNS = null;
+  (function probe(){
+    if(!hasRuntime){ canPublish = false; return; }
+    window.claude.use("artifact").then(function(a){
+      artifactNS = a || null; canPublish = !!a; paintBanner();
+    }, function(){ canPublish = false; paintBanner(); });
+  })();
+
+  function esc(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  function counts(){
+    var c = {all:DATA.dishes.length, b:0, d:0, both:0};
+    DATA.dishes.forEach(function(x){ c[x.w]++; });
+    return c;
+  }
+  function has(d, who){
+    if(who==="all") return true;
+    if(who==="both") return d.w==="both";
+    return d.w===who || d.w==="both";
+  }
+  function matches(d){
+    if(!has(d, filterWho)) return false;
+    if(filterCat!=="all" && d.c!==filterCat) return false;
+    if(!query) return true;
+    var hay = [d.n, d.zh||"", d.c].concat(d.i||[]).concat(d.s||[]).join(" ").toLowerCase();
+    return hay.indexOf(query.toLowerCase()) > -1;
+  }
+  function whoBadge(w){
+    return '<span class="who '+(w==="both"?"both":w)+'"><i class="dot"></i>'+COOK[w]+'</span>';
+  }
+
+  function cardHTML(d){
+    var open = d.id===openId;
+    var pending = !d.s || !d.s.length;
+    var h = '<article class="card'+(open?" open":"")+'" data-id="'+esc(d.id)+'">';
+    h += '<button class="head" type="button" data-act="toggle" aria-expanded="'+open+'">';
+    h += '<span class="name">'+esc(d.n)+'</span>';
+    if(d.zh) h += '<span class="zh">'+esc(d.zh)+'</span>';
+    h += '<span class="meta">'+whoBadge(d.w);
+    h += '<span>'+esc(d.c||"Unfiled")+(d.t ? ' &middot; '+esc(d.t) : '')+'</span>';
+    if(pending) h += '<span class="pending">recipe to come</span>';
+    h += '</span></button>';
+
+    if(open){
+      h += '<div class="body">';
+      if(pending){
+        h += '<p class="emptynote">No recipe written up yet. Mention this dish back in the chat and I\'ll fill in the method and update this page.</p>';
+      } else {
+        h += '<div class="cols"><div><h3>Ingredients</h3><ul class="ing">';
+        (d.i||[]).forEach(function(x){ h += '<li>'+esc(x)+'</li>'; });
+        h += '</ul></div><div><h3>Method</h3><ol class="steps">';
+        d.s.forEach(function(x){ h += '<li>'+esc(x)+'</li>'; });
+        h += '</ol>';
+        if(d.p && d.p.length){
+          h += '<div class="tip"><strong>What matters</strong>'+d.p.map(esc).join("<br>")+'</div>';
+        }
+        h += '</div></div>';
+      }
+      h += '<div class="rowend">';
+      h += confirmId===d.id
+        ? '<button class="del" type="button" data-act="delyes">Yes, remove &ldquo;'+esc(d.n)+'&rdquo;</button>'
+        : '<button class="del" type="button" data-act="del">Remove this dish</button>';
+      h += '</div></div>';
+    }
+    return h + '</article>';
+  }
+
+  function renderGrid(){
+    var list = DATA.dishes.filter(matches);
+    var box = document.getElementById("results");
+    if(!box) return;
+    box.innerHTML = list.length
+      ? '<div class="grid">' + list.map(cardHTML).join("") + '</div>'
+      : '<p class="noresult">Nothing matches. Try another word, or add the dish below.</p>';
+  }
+
+  function render(){
+    var c = counts();
+    var h = "";
+
+    h += '<header>';
+    h += '<p class="eyebrow">Home Kitchen</p>';
+    h += '<h1 class="serif">Diandian &amp; Bobby&rsquo;s Kitchen</h1>';
+    h += '<p class="sub">Everything the two of us know how to cook, written down with the method and the one or two things that actually decide whether it works. Add a dish below and the recipe gets filled in later.</p>';
+    h += '<div class="tally">';
+    h += '<div><b>'+c.all+'</b><span>dishes</span></div>';
+    h += '<div class="b"><b>'+(c.b+c.both)+'</b><span>Bobby cooks</span></div>';
+    h += '<div class="d"><b>'+(c.d+c.both)+'</b><span>Diandian cooks</span></div>';
+    h += '<div><b>'+c.both+'</b><span>both of us</span></div>';
+    h += '</div></header>';
+
+    h += '<div class="toolbar">';
+    h += '<input id="q" type="search" placeholder="Search a dish, an ingredient, a method&hellip;" value="'+esc(query)+'">';
+    h += '<div class="chips">';
+    [["all","Everything"],["b","Bobby"],["d","Diandian"],["both","Both"]].forEach(function(p){
+      h += '<button class="chip" type="button" data-who="'+p[0]+'" aria-pressed="'+(filterWho===p[0])+'">'+p[1]+'</button>';
+    });
+    h += '<i class="chipsep"></i>';
+    h += '<button class="chip" type="button" data-cat="all" aria-pressed="'+(filterCat==="all")+'">All kinds</button>';
+    CATS.forEach(function(cat){
+      if(!DATA.dishes.some(function(d){return d.c===cat;})) return;
+      h += '<button class="chip" type="button" data-cat="'+esc(cat)+'" aria-pressed="'+(filterCat===cat)+'">'+esc(cat)+'</button>';
+    });
+    h += '</div></div>';
+
+    h += '<div id="results"></div>';
+
+    h += '<section class="add"><h2 class="serif">Add a dish</h2>';
+    h += '<p>Write down the name to hold its place. The recipe comes later &mdash; just say &ldquo;write up the new dishes&rdquo; back in the chat.</p>';
+    h += '<div class="banner" id="banner"></div>';
+    h += '<div class="addrow">';
+    h += '<input id="newname" type="text" placeholder="Salt-baked chicken, char siu, &hellip;">';
+    h += '<div class="whopick">';
+    [["b","Bobby"],["d","Diandian"],["both","Both"]].forEach(function(p){
+      h += '<button class="chip" type="button" data-new="'+p[0]+'" aria-pressed="'+(newWho===p[0])+'">'+p[1]+'</button>';
+    });
+    h += '</div>';
+    h += '<button class="save" id="saveBtn" type="button">Add it</button>';
+    h += '</div>';
+    h += '<p class="status'+(statusWarn?" warn":"")+'" id="status">'+esc(statusMsg)+'</p>';
+    h += '</section>';
+
+    h += '<footer>'+c.all+' dishes &middot; this version saved '+esc(DATA.savedAt || "at the start")+'</footer>';
+
+    app.innerHTML = h;
+    renderGrid();
+    paintBanner();
+  }
+
+  var newWho = "b";
+  var composing = false;
+
+  function press(group, attr, val){
+    document.querySelectorAll('.chip[data-'+attr+']').forEach(function(b){
+      if(b.closest(group)) b.setAttribute("aria-pressed", String(b.dataset[attr]===val));
+    });
+  }
+
+  app.addEventListener("click", function(e){
+    var chip = e.target.closest(".chip");
+    if(chip){
+      if(chip.dataset.who){
+        filterWho = chip.dataset.who; openId=null; confirmId=null;
+        press(".toolbar","who",filterWho); return renderGrid();
+      }
+      if(chip.dataset.cat){
+        filterCat = chip.dataset.cat; openId=null; confirmId=null;
+        press(".toolbar","cat",filterCat); return renderGrid();
+      }
+      if(chip.dataset["new"]){ newWho = chip.dataset["new"]; press(".add","new",newWho); return; }
+    }
+    var btn = e.target.closest("[data-act]");
+    if(btn){
+      var card = btn.closest(".card"), id = card.dataset.id, act = btn.dataset.act;
+      if(act==="toggle"){ openId = (openId===id ? null : id); confirmId=null; return renderGrid(); }
+      if(act==="del"){ confirmId = id; return renderGrid(); }
+      if(act==="delyes"){
+        DATA.dishes = DATA.dishes.filter(function(d){ return d.id!==id; });
+        extras = extras.filter(function(d){ return d.id!==id; }); saveExtras(extras);
+        openId=null; confirmId=null;
+        render();
+        setStatus("Removed. Saving…");
+        return persist("Removed, and the change is saved.");
+      }
+    }
+    if(e.target.id==="saveBtn") return addDish();
+  });
+
+  app.addEventListener("compositionstart", function(e){ if(e.target.id==="q") composing = true; });
+  app.addEventListener("compositionend", function(e){
+    if(e.target.id==="q"){ composing=false; query=e.target.value; openId=null; confirmId=null; renderGrid(); }
+  });
+  app.addEventListener("input", function(e){
+    if(e.target.id==="q" && !composing){ query=e.target.value; openId=null; confirmId=null; renderGrid(); }
+  });
+  app.addEventListener("keydown", function(e){
+    if(e.target.id==="newname" && e.key==="Enter" && !e.isComposing){ e.preventDefault(); addDish(); }
+  });
+
+  function setStatus(m, warn){
+    statusMsg = m || ""; statusWarn = !!warn;
+    var el = document.getElementById("status");
+    if(el){ el.textContent = statusMsg; el.className = "status" + (statusWarn?" warn":""); }
+  }
+
+  function paintBanner(){
+    var el = document.getElementById("banner");
+    if(!el) return;
+    var pend = DATA.dishes.filter(function(d){ return !d.s || !d.s.length; }).length;
+    var h = "";
+    if(canPublish === true){
+      el.className = "banner ok";
+      h = "Auto-save is on. Dishes you add are written into this page and show up on your other devices.";
+    } else if(canPublish === false && !hasRuntime){
+      el.className = "banner";
+      h = "Standalone copy &mdash; dishes you add are kept in this browser only. The hosted version saves to the page itself.";
+    } else if(canPublish === false){
+      el.className = "banner bad";
+      h = "<b>This view can’t save a new version.</b> Dishes you add are kept in this browser, so a refresh won’t lose them, but another device won’t see them. Opening this page on its own (not inside a preview frame) usually fixes it.";
+    } else {
+      el.className = "banner"; h = "Checking whether this page can save…";
+    }
+    if(pend){ h += ' <span class="bpend">' + pend + (pend===1?" dish is":" dishes are") + " waiting on a recipe</span>"; }
+    el.innerHTML = h;
+  }
+
+  function slug(){ return "dish-" + Date.now().toString(36); }
+
+  function addDish(){
+    var input = document.getElementById("newname");
+    var name = (input.value||"").trim();
+    if(!name){ setStatus("Give it a name first.", true); input.focus(); return; }
+    if(DATA.dishes.some(function(d){ return d.n.toLowerCase()===name.toLowerCase(); })){
+      setStatus("“"+name+"” is already on the list.", true); return;
+    }
+    var dish = { id:slug(), n:name, zh:"", w:newWho, c:"Unfiled", t:"", i:[], s:[], p:[] };
+    DATA.dishes.push(dish);
+    extras.push(dish); saveExtras(extras);
+    query=""; filterWho="all"; filterCat="all";
+    setStatus("Added. Saving…");
+    render();
+    persist("“"+name+"” is saved. The recipe comes next.");
+  }
+
+  /* ---- self-persistence ---- */
+  function buildDoc(){
+    var css = document.getElementById("css").textContent;
+    var js  = document.getElementById("js").textContent;
+    var d = new Date();
+    function pad(x){ return (x<10?"0":"")+x; }
+    DATA.savedAt = d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes());
+    var json = JSON.stringify(DATA).replace(/</g, "\\u003c");
+    var S = "script";
+    return '<!doctype html>\n<html lang="en">\n<head>\n'
+      + '<meta charset="utf-8">\n'
+      + '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+      + '<title>' + TITLE + '</title>\n'
+      + FONTS + '\n'
+      + '<style id="css">' + css + '</style>\n'
+      + '</head>\n<body>\n'
+      + '<div class="wrap"><div id="app"></div></div>\n'
+      + '<' + S + ' type="application/json" id="data">' + json + '</' + S + '>\n'
+      + '<' + S + ' id="js">' + js + '</' + S + '>\n'
+      + '</body>\n</html>';
+  }
+
+  var LOCAL_ONLY = " Kept in this browser instead (a refresh won’t lose it).";
+
+  function persist(okMsg){
+    paintBanner();
+    function fail(msg){ canPublish = false; paintBanner(); setStatus(msg, true); }
+    if(!hasRuntime){ canPublish = false; paintBanner(); setStatus(okMsg.replace(/\.$/, "") + "." + LOCAL_ONLY); return; }
+
+    Promise.resolve(artifactNS || window.claude.use("artifact")).then(function(a){
+      if(!a){ return fail("Couldn’t save a new version." + LOCAL_ONLY); }
+      artifactNS = a; canPublish = true;
+      var doc;
+      try{ doc = buildDoc(); }
+      catch(e){ return fail("The page couldn’t rebuild itself (" + (e && e.message) + ")." + LOCAL_ONLY); }
+      return a.publish(doc).then(function(){ canPublish = true; paintBanner(); setStatus(okMsg); });
+    }).catch(function(err){
+      var code = err && err.code;
+      if(code==="conflict"){ setStatus("This page was just changed elsewhere. It will reload to the newest version — add the dish again after that.", true); }
+      else if(code==="not_granted" || code==="not_writer"){ fail("You only have view access to this page." + LOCAL_ONLY); }
+      else { fail("Save failed (" + (code || (err && err.message) || "unknown") + ")." + LOCAL_ONLY); }
+    });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
