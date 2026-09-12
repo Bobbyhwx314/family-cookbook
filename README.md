@@ -55,11 +55,6 @@ Recipes live in a JSON block inside each HTML file (`<script type="application/j
 
 `w` is who cooks it: `b`, `d`, or `both`. `i` is ingredients, `s` is steps, `p` is the notes. A dish with an empty `s` renders as *recipe to come*.
 
-## 中文
-
-[English]((https://claude.ai/code/artifact/3054650e-5088-4c4c-b5c1-d02fbb25fe5c)) ·
-
-21 道菜，每道带食材、分步做法，和一两条真正决定成败的窍门。可以按人、按分类筛，也能搜食材和做法。新加的菜会先存进浏览器，再尝试写回页面本身——两条路互为备份。
 
 ## License
 
